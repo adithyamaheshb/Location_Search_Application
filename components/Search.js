@@ -79,7 +79,7 @@ class Search extends Component {
                         <h1>Venues</h1>
                         <ol>
                             {this.state.venues.map((venue, i) => {
-                                return <li key={venue.id}>{venue.name} {venue.location.lat} {venue.location.lng}</li>
+                                return <li key={venue.id}>{venue.name}</li>
                             })
                             }
                         </ol>
