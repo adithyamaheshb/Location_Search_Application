@@ -7,8 +7,7 @@ class Mapp extends Component {
         super(props);
         this.state = {
             map:null,
-            markers: []
-
+            markers:[]
         };
 
         console.log(props);
@@ -60,8 +59,8 @@ class Mapp extends Component {
                 {/*{markers.map((marker, index) =>(
                 <Marker {...marker}/>
                 )
-                    )}
-*/}            </GoogleMap>
+                    )}*/}
+            </GoogleMap>
             </div>
         )
     }

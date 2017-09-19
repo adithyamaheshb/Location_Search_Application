@@ -1,6 +1,23 @@
 import React, {Component} from 'react';
 import {get} from 'superagent';
 import superagent from 'superagent';
+import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps'
+//import {GoogleMapLoader ,GoogleMap, Marker} from 'react-google-maps';
+
+/*
+const SAN_FRANCISCO =  {
+    lat: 37.401018799999996,
+    lng: -122.0178674
+};
+*/
+
+/*
+let map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 16,
+    center: new google.maps.LatLng(40.729,-73.996),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+});
+*/
 
 class Search extends Component {
 
@@ -17,6 +34,22 @@ class Search extends Component {
         };
 
     }
+
+    componentDidMount() {
+        /*this.map = new google.maps.Map(this.refs.map, {
+            center: SAN_FRANCISCO,
+            zoom: 16
+        });*/
+
+        /*this.marker = new google.maps.Marker(this.refs.map,{
+            position: {
+                lat: SAN_FRANCISCO.position.lat,
+                lng: SAN_FRANCISCO.position.lng
+            }
+        });*/
+    }
+
+
 
     updateSearchFilters(field, event) {
         let search = Object.assign({}, this.state.search);
@@ -60,11 +93,71 @@ class Search extends Component {
 
     }
 
+    /*mapMoved()
+    {
+        console.log('map moved:'+ JSON.stringify(this.state.map.getCenter()) )
+    }
+
+    mapLoaded(map)
+    {
+        //console.log('map loaded:' + JSON.stringify(map.getCenter()) )
+        if(this.state.map!= null)
+        {
+            return;
+        }
+        this.setState({
+            map:map
+        })
+    }
+
+    zoomChanged()
+    {
+        console.log('zoom changed:' + this.state.map.getZoom())
+    }
+*/
 
     render() {
+        /*const markers = this.props.markers.map((venue, i) => {
+            const marker = {
+                position:{
+                    lat: venue.location.lat,
+                    lng: venue.location.lng
+                }
+            };
+            return <Marker key={i} {...marker} />
+        });*/
+        /*const mapStyle = {
+            width: 800,
+            height: 800,
+            border: '1px solid black'
+        };*/
+        //const mapContainer = <div style={{height:'100%',width:'100%'}}></div>;
         return (
             <div className="container">
                 <div className="row">
+             {/*       <div>
+                        <div className="col-md-12">
+                            <GoogleMap
+                                ref={this.mapLoaded.bind(this)}
+                                onDragEnd={this.mapMoved.bind(this)}
+                                onZoomChanged={this.zoomChanged.bind(this)}
+                                defaultZoom={this.props.zoom}
+                                defaultCenter={this.props.center}>
+                                {markers}
+                                {markers.map((marker, index) =>(
+                                    <Marker {...marker}/>
+                                        )
+                                        )}
+                            </GoogleMap>
+*/}                       {/*     <Mapp center={{lat: 37.401018799999996,
+                    lng: -122.0178674}}
+                      zoom={14}
+                      containerElement={<div style={{height: 400+'px'}}/>}
+                      mapElement={<div style={{height: 400+'px'}}/>}
+                      markers={this.state.venues}
+                />*/}
+   {/*                     </div>
+                    </div>*/}
                     <div className="col-md-4">
                         <h1>Search Venues</h1>
                         <input onChange={this.updateSearchFilters.bind(this, 'query')} type="text" placeholder="Query"/><br/><br/>
@@ -90,4 +183,4 @@ class Search extends Component {
     }
 }
 
-export default Search;
+export default (Search);
