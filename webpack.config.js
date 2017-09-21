@@ -1,5 +1,5 @@
 var webpack = require("webpack");
-var path = require('path');
+var path = require("path");
 
 module.exports = {
 
@@ -10,11 +10,15 @@ module.exports = {
         filename: 'build/bundle.js',
         sourceMapFilename: 'build/bundle.map'
     },
+    devServer: {
+        inline: true,
+        port: 3333
+    },
     devtool: '#source-map',
        module: {
         loaders: [
             {
-                test: /\.jsx?$/,
+                test: [/\.js$/, /\.es6$/],
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
                 query:{
