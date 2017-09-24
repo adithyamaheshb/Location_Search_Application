@@ -120,9 +120,16 @@ class App extends Component {
                     <div className="col-md-3">
                         <div className="form-style-8">
                         <h1>Search Venues</h1>
-                        <input onChange={this.updateSearchFilters.bind(this, 'query')} type="text" placeholder="Query"/>
-                        <input onChange={this.updateSearchFilters.bind(this, 'zipcode')} type="number"
-                               placeholder="Zipcode"/>
+                        <select onChange={this.updateSearchFilters.bind(this, 'query')} type="text"
+                               placeholder="Query">
+                            <option value="Top Picks">Top Picks</option>
+                            <option selected value="Trending">Trending</option>
+                            <option value="Food">Food</option>
+                            <option value="Nightlife">Nightlife</option>
+                            <option value="Fun">Fun</option>
+                            <option value="Shopping">Shopping</option>
+                        </select>
+                        <input onChange={this.updateSearchFilters.bind(this, 'zipcode')} type="number" placeholder="Zipcode"/>
                         <input onChange={this.updateSearchFilters.bind(this, 'radius')} type="number"
                                placeholder="Radius in metres"/>
 
