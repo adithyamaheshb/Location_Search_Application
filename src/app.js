@@ -14,7 +14,6 @@ class App extends Component {
             venues: [],
             markers: [],
             search: {
-                location: '',
                 query: '',
                 radius: '',
                 zipcode:''
@@ -28,7 +27,7 @@ class App extends Component {
 
         const params = {
             v: '20170918',
-            near: 'sunnyvale',
+            near: '94089',
             query: 'food',
             radius: '5000',
             //postalCode: this.state.search.zipcode,
@@ -70,7 +69,7 @@ class App extends Component {
 
         const params = {
             v: '20170916',
-            near: this.state.search.location,
+            near: this.state.search.zipcode,
             query: this.state.search.query,
             radius: this.state.search.radius,
 
@@ -122,8 +121,8 @@ class App extends Component {
                         <div className="form-style-8">
                         <h1>Search Venues</h1>
                         <input onChange={this.updateSearchFilters.bind(this, 'query')} type="text" placeholder="Query"/>
-                        <input onChange={this.updateSearchFilters.bind(this, 'location')} type="text"
-                               placeholder="location"/>
+                        <input onChange={this.updateSearchFilters.bind(this, 'zipcode')} type="number"
+                               placeholder="Zipcode"/>
                         <input onChange={this.updateSearchFilters.bind(this, 'radius')} type="number"
                                placeholder="Radius in metres"/>
 
