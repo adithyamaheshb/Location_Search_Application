@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "start http://localhost:3333 & webpack-dev-server"
   },
   "author": "Adithya Mahesh Bariki",
   "license": "ISC",

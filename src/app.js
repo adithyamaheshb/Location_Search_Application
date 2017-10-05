@@ -115,50 +115,45 @@ class App extends Component {
 
         return (
             <form>
-            <div>
                 <div>
-                    <div className="col-md-3">
-                        <div className="form-style-8">
-                        <h1>Search Venues</h1>
-                        <select onChange={this.updateSearchFilters.bind(this, 'query')} type="text"
-                               placeholder="Query">
-                            <option value="Top Picks">Top Picks</option>
-                            <option selected value="Trending">Trending</option>
-                            <option value="Food">Food</option>
-                            <option value="Nightlife">Nightlife</option>
-                            <option value="Fun">Fun</option>
-                            <option value="Shopping">Shopping</option>
-                        </select>
-                        <input onChange={this.updateSearchFilters.bind(this, 'zipcode')} type="number" placeholder="Zipcode"/>
-                        <input onChange={this.updateSearchFilters.bind(this, 'radius')} type="number"
-                               placeholder="Radius in metres"/>
-
-
+                    <div>
+                        <div className="col-md-3">
+                            <div className="form-style-8">
+                            <h1>Search Venues</h1>
+                                <select onChange={this.updateSearchFilters.bind(this, 'query')} type="text"
+                                            placeholder="Query">
+                                    <option value="Top Picks">Top Picks</option>
+                                    <option selected value="Trending">Trending</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Nightlife">Nightlife</option>
+                                    <option value="Fun">Fun</option>
+                                    <option value="Shopping">Shopping</option>
+                                </select>
+                                <input onChange={this.updateSearchFilters.bind(this, 'zipcode')} type="number" placeholder="Zipcode"/>
+                                <input onChange={this.updateSearchFilters.bind(this, 'radius')} type="number"
+                                            placeholder="Radius in metres"/>
                             <button className="w3-button w3-border w3-hover-cyan w3-xlarge" onClick={this.searchVenues.bind(this)}>Search</button>
 
-                        <h1>Venues</h1>
-                        <ol>
-                            {this.state.venues.map((venue, i) => {
-                                return <li key={venue.id}>{venue.name}</li>
-                            })
-                            }
-                        </ol>
+                                <h1>Venues</h1>
+                                     <ol>
+                                        {this.state.venues.map((venue, i) => {
+                                            return <li key={venue.id}>{venue.name}</li>
+                                             })
+                                        }
+                                     </ol>
                         </div>
                     </div>
 
                     <div className="col-md-9">
-                <Mapp center={location}
-                      zoom={2}
-                      containerElement={<div style={{height: 800+'px',width: 1200+'px'}}/>}
-                      mapElement={<div style={{height: 800+'px',width: 1200+'px'}}/>}
-                      markers={this.state.venues}
-                />
-
+                         <Mapp center={location}
+                               zoom={2}
+                               containerElement={<div style={{height: 800+'px',width: 1200+'px'}}/>}
+                               mapElement={<div style={{height: 800+'px',width: 1200+'px'}}/>}
+                               markers={this.state.venues}
+                         />
                     </div>
-
                 </div>
-
-    </div>
+            </div>
             </form>
     )
     }
