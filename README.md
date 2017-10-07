@@ -1,5 +1,5 @@
-# Venue_Search_react
-A basic react application to list out the venues which queries the Foursquare API based on category, location and radius entered by the user
+# Location_Place_Search
+A basic react application to list out the venues which queries the Foursquare API based on category, location and radius entered by the user.
 How to run:
 1. Either clone the repository or download the repository and here's the link for cloning the repo.
 2. Type command: "git clone https://github.com/adithyamahesh596/Location_Search_Application.git"
