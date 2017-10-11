@@ -1,59 +1,67 @@
-import React, { Component } from 'react';
-
-import axios from 'axios';
-
-
-const ARC_DE_TRIOMPHE_POSITION = {
-    lat: 48.873947,
-    lng: 2.295038
-};
-
-const SAN_FRANCISCO = {
-    lat: 37.401018799999996,
-    lng: -122.0178674
-};
-
-
+import React, {Component} from 'react';
+import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps'
 
 class Map extends Component {
-
-        constructor(props) {
-            super(props);
-
-            //this.panToArcDeTriomphe = this.panToArcDeTriomphe.bind(this);
-    }
-
-    componentDidMount() {
-        this.map = new google.maps.Map(this.refs.map, {
-            center: SAN_FRANCISCO,
-            zoom: 16
-        });
-
-    }
-
-
-    //panToArcDeTriomphe() {
-    //    console.log(this);
-     //   this.map.panTo(ARC_DE_TRIOMPHE_POSITION);
-    //}
-
-    render() {
-        //console.log(this.state.result_mu);
-
-        const mapStyle = {
-            width: 500,
-            height: 300,
-            border: '1px solid black'
+       constructor(props){
+        super(props);
+        this.state = {
+            map:null,
+            markers:[]
         };
+        console.log(props);
+    }
+
+    mapMoved()
+    {
+        console.log('map moved:'+ JSON.stringify(this.state.map.getCenter()) )
+    }
+
+    mapLoaded(map)
+    {
+        //console.log('map loaded:' + JSON.stringify(map.getCenter()) )
+        if(this.state.map!== null)
+        {
+            return;
+        }
+        this.setState({
+            map:map
+        })
+    }
+
+    zoomChanged()
+    {
+        console.log('zoom changed:' + this.state.map.getZoom())
+    }
+
+    render(){
+
+        const markers = this.props.markers.map((venue, i) => {
+            const marker = {
+                position:{
+                    lat: venue.location.lat,
+                    lng: venue.location.lng
+                }
+            };
+            return <Marker key={i} {...marker} />
+        });
 
         return (
             <div>
-
-            <div ref="map" style={mapStyle}>Google maps!</div>
-
+            <GoogleMap
+                ref={this.mapLoaded.bind(this)}
+                onDragEnd={this.mapMoved.bind(this)}
+                onZoomChanged={this.zoomChanged.bind(this)}
+                defaultZoom={this.props.zoom}
+                defaultCenter={this.props.center}>
+                {markers}
+                {/*{markers.map((marker, index) =>(
+                <Marker {...marker}/>
+                )
+                    )}*/}
+            </GoogleMap>
             </div>
-        );
+        )
     }
 }
 
-export default Map;
+export default withGoogleMap(Map);
