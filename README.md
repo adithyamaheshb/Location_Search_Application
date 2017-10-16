@@ -6,4 +6,4 @@ How to run:
 3. Navigate to the repository and type "npm install" for installing dependencies.
 4. As, I used webpackdev server for this application just type "npm start -s" after installing the dependencies.
 5. Now, the application automatically opens in the browser.
-6. You can see the live demo [here.][http://www.location-search.cf]
+6. You can see the live demo here[http://www.location-search.cf]
