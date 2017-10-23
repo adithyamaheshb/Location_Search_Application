@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# React-Redux-Login
-A basic Login application with React and Redux
-=======
 # Location_Search_Application
 A basic react application to list out the venues which queries the Foursquare API based on category, location and radius entered by the user.
 How to run:
