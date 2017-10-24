@@ -29,25 +29,52 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
     <style type="text/css">
       .form-style-8{
-        font-family: 'Open Sans Condensed', arial, sans;
+        /*font-family: 'Open Sans Condensed', arial, sans;
         width: 500px;
         padding: 30px;
         background: #FFFFFF;
         margin: 50px auto;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
         -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
-        -webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);
+        -webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);*/
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 500px;
+        background: #555;
+        padding: 20px 30px 20px 50px;
+        font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: #D3D3D3;
+        text-shadow: 1px 1px 1px #444;
+        border: none;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        height: 725px;
+        overflow: scroll;
 
+     }
+
+      h1 {
+        text-align: center;
+        font-family:  'Hoefler Text', Georgia, 'Times New Roman', serif;
+        font-weight: normal;
+        font-size: 1px;
+        letter-spacing: .2em;
+        line-height: 1.1em;
+        margin:0;
+        text-transform: uppercase;
       }
+
       .form-style-8 h2{
         background: #4D4D4D;
         text-transform: uppercase;
         font-family: 'Open Sans Condensed', sans-serif;
         color: #797979;
-        font-size: 18px;
+        font-size: 1px;
         font-weight: 100;
         padding: 20px;
         margin: -30px -30px 30px -30px;
+
       }
       .form-style-8 input[type="text"],
       .form-style-8 input[type="date"],
@@ -58,27 +85,33 @@
       .form-style-8 input[type="time"],
       .form-style-8 input[type="url"],
       .form-style-8 input[type="password"],
-
       .form-style-8 select
       {
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         outline: none;
-        display: block;
-        width: 50%;
+        display: inline-block;
+        width: 270px;
         padding: 7px;
         border: none;
         border-bottom: 1px solid #ddd;
-        background: transparent;
+        background: #555;
         margin-bottom: 10px;
         font: 16px Arial, Helvetica, sans-serif;
         height: 45px;
+
       }
       .form-style-8 textarea{
         resize:none;
         overflow: hidden;
       }
+
+      p{
+        display: flex; justify-content: center;
+      }
+
+
       .form-style-8 input[type="button"],
       .form-style-8 input[type="submit"]{
         -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
@@ -87,18 +120,22 @@
         background-color: #2CBBBB;
         border: 1px solid #27A0A0;
         display: inline-block;
-        cursor: pointer;
+        cursor: move;
         color: #FFFFFF;
         font-family: 'Open Sans Condensed', sans-serif;
         font-size: 14px;
+        font-weight: bold;
         padding: 8px 18px;
         text-decoration: none;
         text-transform: uppercase;
+        text-align: center;
+
       }
       .form-style-8 input[type="button"]:hover,
       .form-style-8 input[type="submit"]:hover {
         background:linear-gradient(to bottom, #34CACA 5%, #30C9C9 100%);
         background-color:#34CACA;
+        cursor: move;
       }
     </style>
   </head>
