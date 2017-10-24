@@ -117,10 +117,11 @@ class Search extends Component {
                             <ol>
                                 {this.state.venues.map((venue, i) => {
                                     return <li key={venue.id}>
-                                        <div style={{padding:12, marginBottom:16, background:'f9f9f9'}}>
+                                        <div style={{padding:12, marginBottom:16, background:'f9f9f9',fontSize:16,fontFamily:'Roboto'}}>
                                             <h4 style={{marginBottom:0}}>{venue.name}</h4>
                                             <span>{venue.location.address}</span><br />
-                                            <a href={venue.url}>{venue.url}</a>
+                                            <a href={venue.url}>{venue.url}</a><br />
+                                            <b>{venue.contact.phone}</b><br />
                                         </div>
                                     </li>
                                 })
