@@ -8,12 +8,12 @@ class Map extends Component {
             map:null,
             markers:[]
         };
-        console.log(props);
+        
     }
 
     mapMoved()
     {
-        console.log('map moved:'+ JSON.stringify(this.state.map.getCenter()) )
+        console.log('map moved:'+ JSON.stringify(this.state.map.getCenter())); 
     }
 
     mapLoaded(map)
