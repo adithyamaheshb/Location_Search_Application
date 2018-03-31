@@ -37,7 +37,7 @@ class Search extends Component {
         console.log('searchVenues: ' + JSON.stringify(this.state.search));
         const url = 'https://api.foursquare.com/v2/venues/search';
         const params = {
-            v: '20170916',
+            v: '20180331',
             near: this.state.search.location,
             query: this.state.search.query,
             radius: this.state.search.radius,
@@ -82,47 +82,50 @@ class Search extends Component {
                     </div>
                     <div className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 clear-padding">
                         <div className="form-style-8" style={{height: 100 + 'vh'}}>
-                            <h1>Search Venues</h1>
-                            <select onChange={this.updateSearchFilters.bind(this, 'query')} type="text"
-                                    placeholder="Query">
-                                <option value="Top Picks">Top Picks</option>
-                                <option value="Trending">Trending</option>
-                                <option value="Food">Food</option>
-                                <option value="Nightlife">Nightlife</option>
-                                <option value="Fun">Fun</option>
-                                <option value="Shopping">Shopping</option>
-                            </select>
-                            <input onChange={this.updateSearchFilters.bind(this, 'location')} type="number"
-                                placeholder="Zipcode" className="inputRequired"/>
-                            <input onChange={this.updateSearchFilters.bind(this, 'radius')} type="number"
-                                placeholder="Radius in metres"/>
+                            <div className="box">
+                                <h1>Search Venues</h1>
+                                <select onChange={this.updateSearchFilters.bind(this, 'query')} type="text"
+                                        placeholder="Query">
+                                    <option value="Top Picks">Top Picks</option>
+                                    <option value="Trending">Trending</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Nightlife">Nightlife</option>
+                                    <option value="Fun">Fun</option>
+                                    <option value="Shopping">Shopping</option>
+                                </select>
+                                <input onChange={this.updateSearchFilters.bind(this, 'location')} type="number"
+                                    placeholder="Zipcode" className="inputRequired"/>
+                                <input onChange={this.updateSearchFilters.bind(this, 'radius')} type="number"
+                                    placeholder="Radius in metres"/>
+                                
+                            </div>
                             <p>
                                 <button className="w3-button w3-border w3-hover-cyan w3-xlarge"
-                                        onClick={this.searchVenues.bind(this)}>Search
+                                            onClick={this.searchVenues.bind(this)}>Search
                                 </button>
                             </p>
 
                             <h1>Venues</h1>
-                            <ol>
+                            
+                            <ul>
                                 {this.state.venues.map((venue, i) => {
                                     return <li key={venue.id}>
-                                        <div style={{
-                                            padding: 10,
-                                            marginBottom: 16,
-                                            background: 'f9f9f9',
-                                            fontSize: 16,
-                                            fontFamily: 'Roboto'
-                                        }}>
-                                            <h4 style={{marginBottom: 0}}>{venue.name}</h4>
-                                            <span>{venue.location.address}</span><br/>
-                                            <a href={venue.url}>{venue.url}</a><br/>
-                                            <b>{venue.contact.phone}</b><br/>
+                                        <div id="venue">
+                                            <div id="venue-text">
+                                                <span id="name">{venue.name}</span><br/>
+                                                <span>{venue.location.address}</span><br/>
+                                                <a href={venue.url}>{venue.url}</a><br/>
+                                                <b>{venue.contact.phone}</b><br/>
+                                            </div>
                                         </div>
                                     </li>
                                 })
                                 }
-                            </ol>
-                        </div>
+                            </ul>
+                            
+                        
+                            </div>
+                        
                     </div>
                 </div>
             </form>
