@@ -1,8 +1,4 @@
 import React, {Component} from 'react';
-//eslint-disable-next-line
-import {get} from 'superagent';
-//import ReactDOM from 'react-dom';
-//eslint-disable-next-line
 import superagent from 'superagent';
 import Map from './Map';
 
@@ -19,29 +15,35 @@ class Search extends Component {
                 radius: '',
             },
             center: {
-                lat: '',
-                lng: ''
+                lat: 37.401018799999996,
+                lng: -122.0178674
             }
         }
+        this.updateSearchFilters = this.updateSearchFilters.bind(this);
+        this.searchVenues = this.searchVenues.bind(this);
+    }
+
+    componentDidUpdate() {
+        console.log(this.state);
     }
 
 
-    updateSearchFilters(field, event) {
+    updateSearchFilters(event) {
+        console.log(event.target.name);
         const search = Object.assign({}, this.state.search);
-        search[field] = event.target.value;
+        search[event.target.name] = event.target.value;
         this.setState({search});
     }
 
     searchVenues(event) {
         event.preventDefault();
-        console.log('searchVenues: ' + JSON.stringify(this.state.search));
+        console.log('searchVenues: ',JSON.stringify(this.state.search));
         const url = 'https://api.foursquare.com/v2/venues/search';
         const params = {
-            v: '20180331',
+            v: '20181006',
             near: this.state.search.location,
             query: this.state.search.query,
             radius: this.state.search.radius,
-            //postalCode: this.state.search.zipcode,
             client_id: 'FDTNNCZ2XM53JG0PDPHBJRRGEJU5TCKHAUT1KGEAXKGURAPE',
             client_secret: 'ANZQ2VPFYNUNAXKQQ3G000KMDKIAW2VZIMOKVYUOG41QEKLT'
         };
@@ -56,35 +58,32 @@ class Search extends Component {
                     return
                 }
                 const venues = data.body.response.venues;
-                
-                this.setState({
-                    venues: venues
-                })
+                 this.setState({ venues });
             });
+        console.log(this.state.venues);
         }
 
     render() {
-        const location = {
-            lat: 37.401018799999996,
-            lng: -122.0178674
-        };
-
+        
         return (
             <form>
                 <div className="row">
                     <div className="col-6 col-sm-6 col-md-8 col-lg-9 col-xl-9 clear-padding">
-                        <Map center={location}
+                        <Map center={this.state.center}
                             zoom={5}
-                            containerElement={<div style={{height: 100 + 'vh'}}/>}
-                            mapElement={<div style={{height: 100 + 'vh'}}/>}
+                            containerElement={<div style={{height: '100vh'}}/>}
+                            mapElement={<div style={{height: '100vh'}}/>}
                             markers={this.state.venues}
                         />
                     </div>
                     <div className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 clear-padding">
-                        <div className="form-style-8" style={{height: 100 + 'vh'}}>
+                        <div className="form-style-8" style={{height: '100vh'}}>
                             <div className="box">
                                 <h1>Search Venues</h1>
-                                <select onChange={this.updateSearchFilters.bind(this, 'query')} type="text"
+                                <select onChange={this.updateSearchFilters} 
+                                        type="text"
+                                        name="query"
+                                        value={this.state.search.query}
                                         placeholder="Query">
                                     <option value="Top Picks">Top Picks</option>
                                     <option value="Trending">Trending</option>
@@ -93,15 +92,22 @@ class Search extends Component {
                                     <option value="Fun">Fun</option>
                                     <option value="Shopping">Shopping</option>
                                 </select>
-                                <input onChange={this.updateSearchFilters.bind(this, 'location')} type="number"
-                                    placeholder="Zipcode" className="inputRequired"/>
-                                <input onChange={this.updateSearchFilters.bind(this, 'radius')} type="number"
-                                    placeholder="Radius in metres"/>
+                                <input onChange={this.updateSearchFilters} 
+                                        type="number"
+                                        placeholder="Zipcode" 
+                                        className="inputRequired" 
+                                        name="location"
+                                        value={this.state.search.location}/>
+                                <input onChange={this.updateSearchFilters} 
+                                        type="number"
+                                        placeholder="Radius in metres"
+                                        name="radius"
+                                        value={this.state.search.radius}/>
                                 
                             </div>
                             <p>
                                 <button className="w3-button w3-border w3-hover-cyan w3-xlarge"
-                                            onClick={this.searchVenues.bind(this)}>Search
+                                        onClick={this.searchVenues}>Search
                                 </button>
                             </p>
 
@@ -115,7 +121,8 @@ class Search extends Component {
                                                 <span id="name">{venue.name}</span><br/>
                                                 <span>{venue.location.address}</span><br/>
                                                 <a href={venue.url}>{venue.url}</a><br/>
-                                                <b>{venue.contact.phone}</b><br/>
+                                              {  // <b>{venue.contact.phone}</b><br/> 
+                                            }
                                             </div>
                                         </div>
                                     </li>
