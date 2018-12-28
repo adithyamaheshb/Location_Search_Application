@@ -33,8 +33,19 @@ class Map extends Component {
         console.log('zoom changed:' + this.state.map.getZoom())
     }
 
-    render(){
+    // componentDidUpdate(prevProps) {
+    //     // Typical usage (don't forget to compare props):
+    //     if(this.props.markers.length > 0) {
+    //         if ((this.props.markers[0].location.lat !== prevProps.markers[0].location.lat)
+    //         || (this.props.markers[0].location.lng !== prevProps.markers[0].location.lng)) {
+    //           this.forceUpdate();
+    //           console.log(this.props.markers[0])
+    //         }
+    //     }        
+    //   }
 
+    render(){
+        console.log(this.props);
         const markers = this.props.markers.map((venue, i) => {
             const marker = {
                 position:{
@@ -52,7 +63,7 @@ class Map extends Component {
                     onDragEnd={this.mapMoved.bind(this)}
                     onZoomChanged={this.zoomChanged.bind(this)}
                     defaultZoom={this.props.zoom}
-                    defaultCenter={this.props.center}>
+                    center={this.props.center}>
                     {markers}
                     {/*{markers.map((marker, index) =>(
                 <Marker {...marker}/>
