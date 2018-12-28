@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps';
+import {google, withGoogleMap, GoogleMap, InfoWindow, Marker, MarkerWithLabel} from 'react-google-maps';
+//const { MarkerWithLabel } = require("react-google-maps/lib/components/addons/MarkerWithLabel");
 
 class Map extends Component {
     constructor(props){
@@ -46,6 +47,7 @@ class Map extends Component {
 
     render(){
         console.log(this.props);
+        let selfThis  = this;
         const markers = this.props.markers.map((venue, i) => {
             const marker = {
                 position:{
@@ -53,7 +55,17 @@ class Map extends Component {
                     lng: venue.location.lng
                 }
             };
-            return <Marker key={i} {...marker} />
+            // return <Marker key={i} {...marker} />
+            return  <InfoWindow
+                position={{ lat: marker.position.lat, lng: marker.position.lng}}
+            >
+            
+                <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
+                    <b>{i+1}</b>
+                    <Marker key={i} {...marker} />
+                </div>
+                
+            </InfoWindow>
         });
 
         return (
@@ -64,11 +76,7 @@ class Map extends Component {
                     onZoomChanged={this.zoomChanged.bind(this)}
                     defaultZoom={this.props.zoom}
                     center={this.props.center}>
-                    {markers}
-                    {/*{markers.map((marker, index) =>(
-                <Marker {...marker}/>
-                )
-                    )}*/}
+                    {markers}                    
                 </GoogleMap>
             </div>
         )

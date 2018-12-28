@@ -65,7 +65,8 @@ class Search extends Component {
         const params = {
             v: '20190101',
             near: this.state.search.location,
-            query: this.state.selected.value,
+            query: this.state.search.query ? this.state.search.query : this.state.selected.value,
+            limit: 50,
             radius: this.state.search.radius,
             client_id: 'FDTNNCZ2XM53JG0PDPHBJRRGEJU5TCKHAUT1KGEAXKGURAPE',
             client_secret: 'ANZQ2VPFYNUNAXKQQ3G000KMDKIAW2VZIMOKVYUOG41QEKLT'
@@ -121,7 +122,7 @@ class Search extends Component {
                                 <h1>Search Venues</h1>
                                 <InputSelect
                                     onSelect={this.handleSelect}
-                                    onChange={this.handleChange}
+                                    onChange={this.updateSearchFilters.bind(this, 'query')}
                                     options={this.options}
                                     autoFocus={false}
                                     openUp={false}
@@ -146,10 +147,10 @@ class Search extends Component {
                             
                             <ul>
                                 {this.state.venues.map((venue, i) => {
-                                    return <li key={venue.id}>
+                                    return <li key={venue.id} id="list">
                                         <div id="venue">
                                             <div id="venue-text">
-                                                <span id="name">{venue.name}</span><br/>
+                                                <span id="name">{i+1}.{venue.name}</span><br/>
                                                 {venue.categories.length > 0 ? (<b>{venue.categories[0].name}<br/></b>) : (null)}
                                                 <span>{venue.location.formattedAddress[0]}</span><br/>
                                                 <span>{venue.location.formattedAddress[1]}</span><br/>
