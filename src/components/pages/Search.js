@@ -121,6 +121,7 @@ class Search extends Component {
                             <div className="box">
                                 <h1>Search Venues</h1>
                                 <InputSelect
+                                    className="text-center"
                                     onSelect={this.handleSelect}
                                     onChange={this.updateSearchFilters.bind(this, 'query')}
                                     options={this.options}
@@ -138,8 +139,8 @@ class Search extends Component {
                                 
                             </div>
                             <p>
-                                <button className="w3-button w3-border w3-hover-cyan w3-xlarge"
-                                            onClick={this.searchVenues.bind(this)}>Search
+                                <button className="w3-button w3-border w3-hover-darkblue w3-large"
+                                            onClick={this.searchVenues.bind(this)}>SEARCH
                                 </button>
                             </p>
 
