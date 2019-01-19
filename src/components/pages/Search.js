@@ -118,8 +118,8 @@ class Search extends Component {
                     </div>
                     <div className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 clear-padding">
                         <div className="form-style-8" style={{height: 100 + 'vh'}}>
-                            <div className="box">
-                                <h1>Search Venues</h1>
+                            <h1 style={{ marginTop: '5%'}}>Search Venues</h1>
+                            <div className="box" style={{ marginLeft: '15%'}}>
                                 <InputSelect
                                     className="text-center"
                                     onSelect={this.handleSelect}
@@ -139,7 +139,7 @@ class Search extends Component {
                                 
                             </div>
                             <p>
-                                <button className="w3-button w3-border w3-hover-darkblue w3-large"
+                                <button className="btn btn-outline-dark"
                                             onClick={this.searchVenues.bind(this)}>SEARCH
                                 </button>
                             </p>

@@ -55,17 +55,17 @@ class Map extends Component {
                     lng: venue.location.lng
                 }
             };
-            // return <Marker key={i} {...marker} />
-            return  <InfoWindow
-                position={{ lat: marker.position.lat, lng: marker.position.lng}}
-            >
+             return <Marker style={{ fontColor: 'white'}} label={`${i+1}`} key={i} {...marker} />
+            // return  <InfoWindow
+            //     position={{ lat: marker.position.lat, lng: marker.position.lng}}
+            // >
             
-                <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
-                    <b>{i+1}</b>
-                    <Marker key={i} {...marker} />
-                </div>
+            //     <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
+            //         <b>{i+1}</b>
+            //         <Marker key={i} {...marker} />
+            //     </div>
                 
-            </InfoWindow>
+            // </InfoWindow>
         });
 
         return (
