@@ -49,12 +49,16 @@ class Map extends Component {
         console.log(this.props);
         let selfThis  = this;
         const markers = this.props.markers.map((venue, i) => {
+            
             const marker = {
                 position:{
                     lat: venue.location.lat,
                     lng: venue.location.lng
                 }
+                
             };
+                
+
              return <Marker style={{ fontColor: 'white'}} label={`${i+1}`} key={i} {...marker} />
             // return  <InfoWindow
             //     position={{ lat: marker.position.lat, lng: marker.position.lng}}

@@ -4,9 +4,11 @@ import {get} from 'superagent';
 //import ReactDOM from 'react-dom';
 //eslint-disable-next-line
 import superagent from 'superagent';
+import axios from 'axios';
 import Map from './Map';
 import './../../../node_modules/react-select-input/lib/react-select-input.css';
 import InputSelect from 'react-select-input';
+const data = require('./../../config.dev');
 
 
 class Search extends Component {
@@ -34,6 +36,8 @@ class Search extends Component {
             { label: "Fun", value: "fun" },
             { label: "Shopping", value: "shopping" }
         ];
+
+        //this.getDetails = this.getDetails.bind(this);
     }
 
     manipState = (state, key, value) => {
@@ -59,17 +63,19 @@ class Search extends Component {
     }
 
     searchVenues(event) {
+        //console.log(data);
         event.preventDefault();
-        console.log('searchVenues: ' + JSON.stringify(this.state.search));
+        //console.log('searchVenues: ' + JSON.stringify(this.state.search));
         const url = 'https://api.foursquare.com/v2/venues/search';
+        //let query  = this.state.search.query ? this.state.search.query : this.state.selected.value;
         const params = {
             v: '20190101',
             near: this.state.search.location,
             query: this.state.search.query ? this.state.search.query : this.state.selected.value,
             limit: 50,
             radius: this.state.search.radius,
-            client_id: 'FDTNNCZ2XM53JG0PDPHBJRRGEJU5TCKHAUT1KGEAXKGURAPE',
-            client_secret: 'ANZQ2VPFYNUNAXKQQ3G000KMDKIAW2VZIMOKVYUOG41QEKLT'
+            client_id: `${data.client_id}`,
+            client_secret: `${data.client_secret}`
         };
 
         superagent
@@ -82,22 +88,40 @@ class Search extends Component {
                     return
                 }
                 const venues = data.body.response.venues;
-                
-                this.setState({
-                    venues: venues
-                }, () => {
-                    console.log(this.state.venues);
-                    if(this.state.venues.length > 0) {
-                        this.setState({ 
-                            centerLat: this.state.venues[0].location.lat,
-                            centerLng: this.state.venues[0].location.lng
-                        })
-                    }                    
-                    this.forceUpdate();
-                })
+                if(venues.length > 0) {
+                    this.setState({
+                        centerLat: venues[0].location.lat,
+                        centerLng: venues[0].location.lng,
+                        venues
+                    })
+                }
             });
-            
-        }
+    }
+
+    // getDetails(id) {
+    //     const url = `https://api.foursquare.com/v2/venues/${id}`;
+    //     //let query  = this.state.search.query ? this.state.search.query : this.state.selected.value;
+    //     const params = {
+    //         v: '20190203',
+    //         limit: 50,
+    //         client_id: `${data.client_id}`,
+    //         client_secret: `${data.client_secret}`
+    //     };
+
+    //     superagent
+    //         .get(url)
+    //         .query(params)
+    //         .set('Accept', 'application/json')
+    //         .end((err, data) => {
+    //             if (err) {
+    //                 console.log(err);
+    //             }
+    //             if(data) {
+    //                 console.log("Details of a venue", data);
+    //             }
+    //         });
+    //     console.log("Details of a venue");
+    // }
 
     render() {
         const location = {
@@ -148,14 +172,17 @@ class Search extends Component {
                             
                             <ul>
                                 {this.state.venues.map((venue, i) => {
-                                    return <li key={venue.id} id="list">
+                                    return <li key={venue.id} id="list"
+                                     //onClick={this.getDetails(venue.id)}
+                                     >
                                         <div id="venue">
                                             <div id="venue-text">
-                                                <span id="name">{i+1}.{venue.name}</span><br/>
+                                                <span id="name">{i+1}.{venue.name}</span>
+                                                <br/>
                                                 {venue.categories.length > 0 ? (<b>{venue.categories[0].name}<br/></b>) : (null)}
-                                                <span>{venue.location.formattedAddress[0]}</span><br/>
-                                                <span>{venue.location.formattedAddress[1]}</span><br/>
-                                                <span>{venue.location.formattedAddress[2]}</span><br/>
+                                                <span>{venue.location.formattedAddress[0] ? venue.location.formattedAddress[0] : null}</span><br/>
+                                                <span>{venue.location.formattedAddress[1] ? venue.location.formattedAddress[1] : null}</span><br/>
+                                                <span>{venue.location.formattedAddress[0] ? venue.location.formattedAddress[2] : null}</span><br/>
                                                 {venue.url ? (<a href={venue.url}>{venue.url}<br/></a>) : (null)}
                                                 {
                                                     //venue.contact.phone ? (<b>{venue.contact.phone}<br/></b>) : (null)
