@@ -59,7 +59,7 @@ class Map extends Component {
             };
                 
 
-             return <Marker style={{ fontColor: 'white'}} label={`${i+1}`} key={i} {...marker} />
+             return <Marker style={{ color: 'white'}} label={`${i+1}`} key={i} {...marker} />
             // return  <InfoWindow
             //     position={{ lat: marker.position.lat, lng: marker.position.lng}}
             // >

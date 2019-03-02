@@ -26,5 +26,5 @@ ReactDOM.render(
         <App />
         </Provider>
     </BrowserRouter>,
-    document.getElementById('root'));
+    document.getElementById('app-root'));
  registerServiceWorker();

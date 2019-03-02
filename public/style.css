@@ -229,3 +229,20 @@
   color: white;
   transform: rotateY(180deg);
 }
+
+
+#modal-root {
+  position: relative;
+  z-index: 999;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal {
+  background: #fff;
+  position: fixed;
+  top: 5%;
+  left: 25%;
+  right: 25%;
+  bottom: 5%;
+  display: block;
+}

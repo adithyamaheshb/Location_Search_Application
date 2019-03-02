@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 //eslint-disable-next-line
 import {get} from 'superagent';
-//import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
 //eslint-disable-next-line
 import superagent from 'superagent';
 import axios from 'axios';
@@ -9,7 +9,8 @@ import Map from './Map';
 import './../../../node_modules/react-select-input/lib/react-select-input.css';
 import InputSelect from 'react-select-input';
 const data = require('./../../config.dev');
-
+const appRoot = document.getElementById('app-root');
+const modalRoot = document.getElementById('modal-root');
 
 class Search extends Component {
 
@@ -24,7 +25,8 @@ class Search extends Component {
             },
             centerLat: 37.401018799999996,
             centerLng: -122.0178674,
-            selected: {}
+            selected: {},
+            showModal: false
         }
 
         this.options = [
@@ -37,8 +39,23 @@ class Search extends Component {
             { label: "Shopping", value: "shopping" }
         ];
 
-        //this.getDetails = this.getDetails.bind(this);
+        this.getDetails = this.getDetails.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
+
+    openModal() {
+        this.setState({
+            showModal: true
+        })
+    }
+
+    closeModal() {
+        this.setState({
+            showModal: false
+        })
+    }
+
 
     manipState = (state, key, value) => {
         return Object.assign({}, state, {
@@ -98,30 +115,31 @@ class Search extends Component {
             });
     }
 
-    // getDetails(id) {
-    //     const url = `https://api.foursquare.com/v2/venues/${id}`;
-    //     //let query  = this.state.search.query ? this.state.search.query : this.state.selected.value;
-    //     const params = {
-    //         v: '20190203',
-    //         limit: 50,
-    //         client_id: `${data.client_id}`,
-    //         client_secret: `${data.client_secret}`
-    //     };
+    getDetails(id) {
+        // const url = `https://api.foursquare.com/v2/venues/${id}`;
+        // //let query  = this.state.search.query ? this.state.search.query : this.state.selected.value;
+        // const params = {
+        //     v: '20190203',
+        //     limit: 50,
+        //     client_id: `${data.client_id}`,
+        //     client_secret: `${data.client_secret}` 
+        // };
 
-    //     superagent
-    //         .get(url)
-    //         .query(params)
-    //         .set('Accept', 'application/json')
-    //         .end((err, data) => {
-    //             if (err) {
-    //                 console.log(err);
-    //             }
-    //             if(data) {
-    //                 console.log("Details of a venue", data);
-    //             }
-    //         });
-    //     console.log("Details of a venue");
-    // }
+        // superagent
+        //     .get(url)
+        //     .query(params)
+        //     .set('Accept', 'application/json')
+        //     .end((err, data) => {
+        //         if (err) {
+        //             console.log(err);
+        //         }
+        //         if(data) {
+        //             console.log("Details of a venue", data);
+        //            
+        //         }
+        //     });
+        this.openModal();
+    }
 
     render() {
         const location = {
@@ -129,9 +147,21 @@ class Search extends Component {
             lng: this.state.centerLng
         };
 
+        const modal = this.state.showModal ? (
+            <DetailsModal>
+              <div className="modal">
+                <div className="row">
+                    <button className="float-right" 
+                        onClick={this.closeModal}>Hide modal</button>                
+                </div>
+              </div>
+            </DetailsModal>
+          ) : null;
+
         return (
             <form>
                 <div className="row">
+                
                     <div className="col-6 col-sm-6 col-md-8 col-lg-9 col-xl-9 clear-padding">
                         <Map center={location}
                             zoom={12}
@@ -173,7 +203,7 @@ class Search extends Component {
                             <ul>
                                 {this.state.venues.map((venue, i) => {
                                     return <li key={venue.id} id="list"
-                                     //onClick={this.getDetails(venue.id)}
+                                        onClick={() => this.getDetails(venue.id)}
                                      >
                                         <div id="venue">
                                             <div id="venue-text">
@@ -199,9 +229,32 @@ class Search extends Component {
                         
                     </div>
                 </div>
+                {modal}
             </form>
         )
     }
 }
 
 export default (Search);
+
+class DetailsModal extends Component{
+    constructor(props) {
+        super(props);
+        this.el = document.createElement("div");
+    }
+
+    componentDidMount() {
+        modalRoot.appendChild(this.el);
+    }
+
+    componentWillUnmount() {
+        modalRoot.removeChild(this.el);
+    }
+
+    render() {
+        return ReactDOM.createPortal(
+          this.props.children,
+          this.el,
+        );
+      }
+}
