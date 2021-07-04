@@ -2,7 +2,8 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react';
-import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps';
+import {google, withGoogleMap, GoogleMap, InfoWindow, Marker, MarkerWithLabel} from 'react-google-maps';
+//const { MarkerWithLabel } = require("react-google-maps/lib/components/addons/MarkerWithLabel");
 
 class Map extends Component {
     constructor(props){
@@ -15,24 +16,12 @@ class Map extends Component {
                 lng: -122.0178674
             }
         };
-        this.mapLoaded = this.mapLoaded.bind(this);
-        this.mapMoved = this.mapMoved.bind(this);
-        this.zoomChanged = this.zoomChanged.bind(this);
-    }
- 
-    componentWillMount() {
-        // const center = {
-        //     lat: this.props.markers[0].location.lat,
-        //     lng: this.props.markers[0].location.lng
-        // }
-        // this.setState({
-        //     center
-        // })
+        
     }
 
     mapMoved()
     {
-        //  console.log('map moved:', JSON.stringify(this.state.map.getCenter()) )
+        console.log('map moved:'+ JSON.stringify(this.state.map.getCenter())); 
     }
 
     mapLoaded(map)
@@ -60,16 +49,42 @@ class Map extends Component {
         })
     }
 
-    render(){
+    // componentDidUpdate(prevProps) {
+    //     // Typical usage (don't forget to compare props):
+    //     if(this.props.markers.length > 0) {
+    //         if ((this.props.markers[0].location.lat !== prevProps.markers[0].location.lat)
+    //         || (this.props.markers[0].location.lng !== prevProps.markers[0].location.lng)) {
+    //           this.forceUpdate();
+    //           console.log(this.props.markers[0])
+    //         }
+    //     }        
+    //   }
 
+    render(){
+        console.log(this.props);
+        let selfThis  = this;
         const markers = this.props.markers.map((venue, i) => {
+            
             const marker = {
                 position:{
                     lat: venue.location.lat,
                     lng: venue.location.lng
                 }
+                
             };
-            return <Marker key={i} {...marker} />
+                
+
+             return <Marker style={{ color: 'white'}} label={`${i+1}`} key={i} {...marker} />
+            // return  <InfoWindow
+            //     position={{ lat: marker.position.lat, lng: marker.position.lng}}
+            // >
+            
+            //     <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
+            //         <b>{i+1}</b>
+            //         <Marker key={i} {...marker} />
+            //     </div>
+                
+            // </InfoWindow>
         });
 
         return (
@@ -80,9 +95,8 @@ class Map extends Component {
                     onDragEnd={this.mapMoved}
                     onZoomChanged={this.zoomChanged}
                     defaultZoom={this.props.zoom}
-                    defaultCenter={this.props.center}
-                    >
-                    {markers}
+                    center={this.props.center}>
+                    {markers}                    
                 </GoogleMap>
             </div>
         )

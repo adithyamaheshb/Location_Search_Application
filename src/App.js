@@ -4,14 +4,15 @@ import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage";
 import NewPage from "./components/pages/NewPage";
 import Search from "./components/pages/Search";
+//import NewPage from "./components/pages/NewPage";
 
 class App extends Component {
   render() {
     return (
           <div>
             <Route path="/" exact component={Search} />
-            <Route path="/login" exact component={LoginPage} />
-            <Route path="/new" exact component={NewPage} />
+            <Route path="/login" exact component={LoginPage} />                     
+            <Route path="/new" exact component={NewPage} />            
             <Route path="/search" exact component={HomePage} />
           </div>
     );

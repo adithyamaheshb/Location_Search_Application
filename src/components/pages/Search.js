@@ -1,13 +1,19 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-no-bind */
-/* eslint-disable no-alert */
-/* eslint-disable no-console */
 import React, {Component} from 'react';
+//eslint-disable-next-line
+import {get} from 'superagent';
+import ReactDOM from 'react-dom';
+//eslint-disable-next-line
 import superagent from 'superagent';
+import axios from 'axios';
 import Map from './Map';
-
+import './../../../node_modules/react-select-input/lib/react-select-input.css';
+import InputSelect from 'react-select-input';
+const data = require('./../../config.dev');
+const appRoot = document.getElementById('app-root');
+const modalRoot = document.getElementById('modal-root');
 
 class Search extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -17,32 +23,76 @@ class Search extends Component {
                 query: '',
                 radius: '',
             },
+            centerLat: 37.401018799999996,
+            centerLng: -122.0178674,
+            selected: {},
+            showModal: false
         }
+
+        this.options = [
+            { label: "Top Picks", value: "toppicks" },
+            { label: "Trending", value: "trending" },
+            { label: "Food", value: "food" },
+            { label: "Coffee", value: "coffee" },
+            { label: "Nightlife", value: "nightlife" },
+            { label: "Fun", value: "fun" },
+            { label: "Shopping", value: "shopping" }
+        ];
+
+        this.getDetails = this.getDetails.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
+    openModal() {
+        this.setState({
+            showModal: true
+        })
+    }
+
+    closeModal() {
+        this.setState({
+            showModal: false
+        })
+    }
+
+
+    manipState = (state, key, value) => {
+        return Object.assign({}, state, {
+          [key]: value
+        });
+      }
+    
+      handleChange = (key) => {
+        let state = this.manipState(this.state, key, !this.state[key]);
+        this.setState(state);
+      }
+    
+      handleSelect = (option) => {
+        let state = this.manipState(this.state, 'selected', option);
+        this.setState(state);
+      }
 
     updateSearchFilters(field, event) {
         const search = Object.assign({}, this.state.search);
         search[field] = event.target.value;
-        this.setState({
-            search
-        });
+        this.setState({search});
     }
 
     searchVenues(event) {
+        //console.log(data);
         event.preventDefault();
-        console.log(`searchVenues: ${  JSON.stringify(this.state.search)}`);
-
+        //console.log('searchVenues: ' + JSON.stringify(this.state.search));
         const url = 'https://api.foursquare.com/v2/venues/search';
-
+        //let query  = this.state.search.query ? this.state.search.query : this.state.selected.value;
         const params = {
-            v: '20170916',
+            v: '20190101',
             near: this.state.search.location,
-            query: this.state.search.query,
+            query: this.state.search.query ? this.state.search.query : this.state.selected.value,
+            limit: 50,
             radius: this.state.search.radius,
-            // postalCode: this.state.search.zipcode,
-            client_id: 'FDTNNCZ2XM53JG0PDPHBJRRGEJU5TCKHAUT1KGEAXKGURAPE',
-            client_secret: 'ANZQ2VPFYNUNAXKQQ3G000KMDKIAW2VZIMOKVYUOG41QEKLT'
+            client_id: `${data.client_id}`,
+            client_secret: `${data.client_secret}`
         };
 
         superagent
@@ -55,93 +105,156 @@ class Search extends Component {
                     return
                 }
                 const venues = data.body.response.venues;
-                // console.log(JSON.stringify(venues));
-                this.setState({
-                    venues
-                })
+                if(venues.length > 0) {
+                    this.setState({
+                        centerLat: venues[0].location.lat,
+                        centerLng: venues[0].location.lng,
+                        venues
+                    })
+                }
             });
-        // ReactDOM.findDOMNode(this.refs.form).value = " ";
+    }
 
+    getDetails(id) {
+        // const url = `https://api.foursquare.com/v2/venues/${id}`;
+        // //let query  = this.state.search.query ? this.state.search.query : this.state.selected.value;
+        // const params = {
+        //     v: '20190203',
+        //     limit: 50,
+        //     client_id: `${data.client_id}`,
+        //     client_secret: `${data.client_secret}` 
+        // };
 
+        // superagent
+        //     .get(url)
+        //     .query(params)
+        //     .set('Accept', 'application/json')
+        //     .end((err, data) => {
+        //         if (err) {
+        //             console.log(err);
+        //         }
+        //         if(data) {
+        //             console.log("Details of a venue", data);
+        //            
+        //         }
+        //     });
+        this.openModal();
     }
 
     render() {
-
-        // let venue = this.state.venues[0];
         const location = {
-            lat: 37.401018799999996,
-            lng: -122.0178674
+            lat: this.state.centerLat,
+            lng: this.state.centerLng
         };
 
-        /* let location2 = {
-            lat: venue.location.lat,
-            lng: venue.location.lng
-        }; */
+        const modal = this.state.showModal ? (
+            <DetailsModal>
+              <div className="modal">
+                <div className="row">
+                    <button className="float-right" 
+                        onClick={this.closeModal}>Hide modal</button>                
+                </div>
+              </div>
+            </DetailsModal>
+          ) : null;
 
-        // console.log(location2);
         return (
             <form>
-                <div className="col-md-3">
-                    <div className="form-style-8" style={{height: `${100  }vh`}}>
-                        <h1>Search Venues</h1>
-                        {
-                            // eslint-disable-next-line react/jsx-no-bind
-                        }
-                        <select onChange={this.updateSearchFilters.bind(this, 'query')} type="text"
-                                placeholder="Query">
-                            <option value="Top Picks">Top Picks</option>
-                            <option value="Trending">Trending</option>
-                            <option value="Food">Food</option>
-                            <option value="Nightlife">Nightlife</option>
-                            <option value="Fun">Fun</option>
-                            <option value="Shopping">Shopping</option>
-                        </select>
-                        <input onChange={this.updateSearchFilters.bind(this, 'location')} type="number"
-                               placeholder="Zipcode" className="inputRequired"/>
-                        <input onChange={this.updateSearchFilters.bind(this, 'radius')} type="number"
-                               placeholder="Radius in metres"/>
-                        <p>
-                            <button className="w3-button w3-border w3-hover-cyan w3-xlarge"
-                                    onClick={this.searchVenues.bind(this)}>Search
-                            </button>
-                        </p>
+                <div className="row">
+                
+                    <div className="col-6 col-sm-6 col-md-8 col-lg-9 col-xl-9 clear-padding">
+                        <Map center={location}
+                            zoom={12}
+                            containerElement={<div style={{height: 100 + 'vh'}}/>}
+                            mapElement={<div style={{height: 100 + 'vh'}}/>}
+                            markers={this.state.venues}
+                        />
+                    </div>
+                    <div className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 clear-padding">
+                        <div className="form-style-8" style={{height: 100 + 'vh'}}>
+                            <h1 style={{ marginTop: '5%'}}>Search Venues</h1>
+                            <div className="box" style={{ marginLeft: '15%'}}>
+                                <InputSelect
+                                    className="text-center"
+                                    onSelect={this.handleSelect}
+                                    onChange={this.updateSearchFilters.bind(this, 'query')}
+                                    options={this.options}
+                                    autoFocus={false}
+                                    openUp={false}
+                                    disableEnter={true}
+                                    collapseOnBlur={true}
+                                    collapseOnEscape={true}
+                                    collapseOnSelect={true}
+                                />
+                                <input onChange={this.updateSearchFilters.bind(this, 'location')} type="number"
+                                    placeholder="Zipcode" className="inputRequired"/>
+                                <input onChange={this.updateSearchFilters.bind(this, 'radius')} type="number"
+                                    placeholder="Radius in metres"/>
+                                
+                            </div>
+                            <p>
+                                <button className="btn btn-outline-dark"
+                                            onClick={this.searchVenues.bind(this)}>SEARCH
+                                </button>
+                            </p>
 
-                        <h1>Venues</h1>
-                        <ol>
-                            {
-                                // eslint-disable-next-line no-unused-vars
-                            }
-                            {this.state.venues.map(venue => <li key={venue.id}>
-                                    <div style={{
-                                        padding: 10,
-                                        marginBottom: 16,
-                                        background: 'f9f9f9',
-                                        fontSize: 16,
-                                        fontFamily: 'Roboto'
-                                    }}>
-                                        <h4 style={{marginBottom: 0}}>{venue.name}</h4>
-                                        <span>{venue.location.address}</span><br/>
-                                        <a href={venue.url}>{venue.url}</a><br/>
-                                        <b>{venue.contact.phone}</b><br/>
-                                    </div>
-                                </li>)
-                            }
-                        </ol>
+                            <h1>Venues</h1>
+                            
+                            <ul>
+                                {this.state.venues.map((venue, i) => {
+                                    return <li key={venue.id} id="list"
+                                        onClick={() => this.getDetails(venue.id)}
+                                     >
+                                        <div id="venue">
+                                            <div id="venue-text">
+                                                <span id="name">{i+1}.{venue.name}</span>
+                                                <br/>
+                                                {venue.categories.length > 0 ? (<b>{venue.categories[0].name}<br/></b>) : (null)}
+                                                <span>{venue.location.formattedAddress[0] ? venue.location.formattedAddress[0] : null}</span><br/>
+                                                <span>{venue.location.formattedAddress[1] ? venue.location.formattedAddress[1] : null}</span><br/>
+                                                <span>{venue.location.formattedAddress[0] ? venue.location.formattedAddress[2] : null}</span><br/>
+                                                {venue.url ? (<a href={venue.url}>{venue.url}<br/></a>) : (null)}
+                                                {
+                                                    //venue.contact.phone ? (<b>{venue.contact.phone}<br/></b>) : (null)
+                                                }
+                                            </div>
+                                        </div>
+                                    </li>
+                                })
+                                }
+                            </ul>
+                            
+                        
+                            </div>
+                        
                     </div>
                 </div>
-
-                <div className="col-md-9">
-                    <Map center={location}
-                         zoom={5}
-                         containerElement={<div style={{height: `${100}vh`}}/>}
-                         mapElement={<div style={{height: `${100}vh`}}/>}
-                         markers={this.state.venues}
-                         resetBoundsOnResize
-                    />
-                </div>
+                {modal}
             </form>
         )
     }
 }
 
 export default (Search);
+
+class DetailsModal extends Component{
+    constructor(props) {
+        super(props);
+        this.el = document.createElement("div");
+    }
+
+    componentDidMount() {
+        modalRoot.appendChild(this.el);
+    }
+
+    componentWillUnmount() {
+        modalRoot.removeChild(this.el);
+    }
+
+    render() {
+        return ReactDOM.createPortal(
+          this.props.children,
+          this.el,
+        );
+      }
+}
